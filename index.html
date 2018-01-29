@@ -3,14 +3,14 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Dassa's Website!</title>
+  <title>Welcome!</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
-<body>
+<body id="">
   <nav class="nav-extended  blue darken-2">
     <div class="nav-wrapper">
       <a href="#" class="brand-logo" style="color: white; padding-left: 20px;">Think the World!</a>
@@ -32,7 +32,8 @@
           <br><br>
           <h1 class="header center white-text">Welcome!</h1>
           <div class="row center">
-            <h5 class="header col s12 light">"The list is an absolute good. The list is life. All around its margin lies the gulf.." <br>- <small>Schindlers' List (My all time favorite)</small></h5>
+            <h5 class="header col s12 light">"Carry out a random act of kindness, with no expectation of reward, safe in the knowledge that one day someone might do the same for you.
+                " <br>- <small>Diana (Princess of Wales)</small></h5>
           </div>
           <div class="row center">
               <a href="https://dasunpubudu.wordpress.com" id="download-button" class="btn-large waves-effect waves-light blue darken-2 pulse" target="_blank">Wordpress Blog</a>
@@ -44,7 +45,7 @@
   
         </div>
       </div>
-      <div class="parallax"><img src="background1.jpg" alt="Unsplashed background img 1"></div>
+      <div class="parallax"><img src="images/background1.jpg" alt="Unsplashed background img 1"></div>
     </div>
   
   
@@ -55,10 +56,20 @@
         <div class="row">
           <div class="col s12 m3">
             <div class="icon-block">
-              <h2 class="center brown-text"><i class="material-icons">flash_on</i></h2>
-              <h5 class="center">Who am I?</h5>
-  
-              <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
+              <div class="card hoverable">
+                  <div class="card-image waves-effect waves-block waves-light">
+                    <img class="activator" src="images/avatar.jpg">
+                  </div>
+                  <a class="btn-floating halfway-fab waves-effect waves-light blue"><i class="material-icons">add</i></a>
+                  <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">About Me<i class="material-icons right">more_vert</i></span>
+                    <p><a href="#">Quotes I like</a></p>
+                  </div>
+                  <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+                    <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                  </div>
+                </div>
             </div>
           </div>
   
@@ -102,7 +113,7 @@
           </div>
         </div>
       </div>
-      <div class="parallax"><img src="background2.jpg" alt="Unsplashed background img 2"></div>
+      <div class="parallax"><img src="images/background2.jpg" alt="Unsplashed background img 2"></div>
     </div>
   
     <div class="container">
@@ -128,7 +139,7 @@
           </div>
         </div>
       </div>
-      <div class="parallax"><img src="background3.jpg" alt="Unsplashed background img 3"></div>
+      <div class="parallax"><img src="images/background3.jpg" alt="Unsplashed background img 3"></div>
     </div>
   </div>
 
@@ -136,7 +147,7 @@
   <div id="test3" class="col s12">Test 3</div>
   <div id="test4" class="col s12">Test 4</div>
 
-  <footer class="page-footer teal">
+  <footer class="page-footer blue darken-2">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
@@ -177,6 +188,6 @@
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
-
+  <script src="js/removedom.js"></script>
   </body>
 </html>
