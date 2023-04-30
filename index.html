@@ -46,7 +46,7 @@
 <div class="profile-page">
   <div class="wrapper">
     <div class="page-header page-header-small" filter-color="green">
-      <div class="page-header-image" data-parallax="true" style="background-image: url('images/cc-bg-1.jpg')"></div>
+      <div class="page-header-image" data-parallax="true" style="background-image: url('images/sl_image.jpeg')"></div>
       <div class="container">
         <div class="content-center">
           <div class="cc-profile-image"><a href="#"><img src="images/profile-image.jpg" alt="Image"/></a></div>
@@ -332,6 +332,18 @@
     </div>
   </div>
 </div>
+
+<div class="section">
+  <div class="container" align="center">
+    <div class="h4 text-center mb-4 title">I read a lot. Here are some of my favourites.</div>
+    <div class="card">
+      <div class="card-body">
+        <div id="includeHtml"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="section" id="contact">
   <div class="cc-contact-information" style="background-image: url('images/staticmap.png')">
     <div class="container">
@@ -358,6 +370,7 @@
   </div>
 </div></div>
     </div>
+    
     <footer class="footer">
       <div class="container text-center"><a class="cc-facebook btn btn-link" href="#"><i class="fa fa-facebook fa-2x " aria-hidden="true"></i></a><a class="cc-twitter btn btn-link " href="#"><i class="fa fa-twitter fa-2x " aria-hidden="true"></i></a><a class="cc-google-plus btn btn-link" href="#"><i class="fa fa-google-plus fa-2x" aria-hidden="true"></i></a><a class="cc-instagram btn btn-link" href="#"><i class="fa fa-instagram fa-2x " aria-hidden="true"></i></a></div>
       <div class="h4 title text-center">Dasun Pubudumal</div>
@@ -373,5 +386,11 @@
     <script src="scripts/main.js?ver=1.1.0"></script>
 
   <script src="https://www.retainable.io/assets/retainable/rss-embed/retainable-rss-embed.js"></script>
+
+  <script>
+    $(function() {
+       $("#includeHtml").load("goodreads-widget.html");
+    });
+  </script>
   </body>
 </html>
