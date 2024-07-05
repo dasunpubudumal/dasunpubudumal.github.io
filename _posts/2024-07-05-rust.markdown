@@ -1,0 +1,102 @@
+---
+layout: post
+title:  "Started learning and using Rust"
+date:   2024-07-05 13:19:11 +0100
+categories: rlox
+---
+
+
+Recently, I've started learning a bit of Rust, here and there, in my spare time. I work full time with Ruby and Python (I used to do a lot of Java as well). One of the true regrets that I have in my career (short career; I started programming professionally - people call it "Software Development" - in 2020) is that I never started out, or got to use C/C++ professionally, or even for my own projects. I was introduced to Python when I was in my university for a module on introduction to programming. I knew some Java before that, only to run probably the simplest command-line calculator. 
+
+I had heared about Rust before. As probably everyone did, I had heard of it as a "systems programming language". I had heard that it was fast, and more importantly, I had heard that it requires a different style (is it _style_? I'm not entirely sure) of programming. So, I got involved in one of the projects that is in its early stages, in Rust. It was **not** in any way related to a compiler, but it got me started off with Rust.
+
+## Why Rust?
+
+Why indeed. Before this turns out to be a philosophical question, I thought of writing a little about how memory is being handled in the language that I'm most familiar in: Java.
+
+Programming expressions are eventually converted into instructions (a command) that the programmer provides to the CPU. Each of these instructions is first loaded into memory, then are taken into registers (although not all at once), and are executed by the CPU. For each of these instructions, therefore, we need some amount of memory to store them. Take a very simple function written in Java.
+
+```java
+public class MyClass {
+    public int increment(int number) {
+        return ++number;
+    }
+}
+```
+
+The variable `number` is of type `int`. This is a primitive type in Java. When you invoke the function `increment` (say, in the `main` method), it will _copy_ the number you want to increment, increment the number, and return the incremented number to you. Now, what happens to your initial number? It is still there _without any mutation on it_. When the calling function is popped off from the stack, the primitive value is also popped off.
+
+```java
+class SomeType {
+    // some functions inside this
+}
+
+public class MyClass {
+    public int doSomething(SomeType someObject) {
+        // Do something with someObject
+    }
+}
+```
+
+The behavior is a bit different when you use custom types, such as `SomeType`. When you pass a variable that refers to `someObject` into `doSomething` function, that reference is copied, but the resulting copy of the reference still points to the object in memory. Unlike primitive types, custom types live on the heap, and are not part of the stack to be popped off when the calling function's activation record (stack frame) is popped off. It lives on the heap until some form of cleaning reclaims that memory by cleaning that object out from memory.
+
+One option is to use some cleaning strategy like [Reference Counting](https://en.wikipedia.org/wiki/Reference_counting){:target="_blank"}. Everytime an object is being referred, the reference count associated to the object increases (this can be implemented through smart pointers i.e., pointers that have metadata attached). And more importantly, when each reference is popped off, the count is decremented by one. When the count reaches 0, the corresponding object is immediately removed from heap and the memory reclaimed. Another very popular strategy is [Tracing Collectors](https://en.wikipedia.org/wiki/Tracing_garbage_collection){:target="_blank"}, where algorithms such as [Mark and Sweep](https://www.cs.odu.edu/~zeil/cs330/f13/Public/garbageCollection/garbageCollection-htmlsu5.html){:target="_blank"} takes place; you mark every reachable object from a GC (Garbage Collection) root, and claim the unmarked ones later on in a GC cycle. 
+
+Garbage Collection is very popular. Especially among [JVM](https://www.oracle.com/webfolder/technetwork/tutorials/obe/java/gc01/index.html){:target="_blank"} enthusiasts, [Node](https://nodejs.org/en/learn/diagnostics/memory/using-gc-traces){:target="_blank"} and enthusiasts. Java memory model fits perfectly for Garbage Collection. It's got generational spaces where young and old generation objects could live in, and objects are passed from younger to older generations through GC cyles (minor and major). It's a very nice approach to clean objects out. However, the problem lies in a _temporal_ measure: "when" would this take place, and what happens when it does. 
+
+### When?
+
+A minor GC is trigerred (theoretically), in the JVM, when the eden space is filled to a certain threshold. A major GC, is (theoretically) trigerred when the old generation is filled to a certain threshold. Note that trigerring a GC is not at the control of the programmer. It's entirely delegated to the JVM's memory and the underlying threads that handle GC and its workings.
+
+### What happens when it does?
+
+Generally, a GC cycle prompts a Stop-The-World (STW) event. That is, it stops user-program execution until objects are moved (and probably until defragmentation finishes) to other generations, and finally corresponding memory is reclaimed. The STW is a worrying prospect for different application domains. If the application GCs often (i.e., frequent GC cycles) and very rapidly, this would directly impact the throughput of the application. There are some options that - after a proper study - programmers could take such as changing the type of GC (although in prior to this, a proper study must be carried out in order to figure out _why_ the application GCs so much), but this again just minimizes the problem, and do not get rid of the root of the problem itself.
+
+Rust is able to give a very elegant solution to both of these problems. 
+
+## Ownership
+
+The central principle behind memory handling in Rust is the concept of [ownership](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html){:target="_blank"}. What is elegant behind it you ask? It's done at **compile time**.
+
+Unlike Java's GC approaches, shifting handling memory to the compiler is, in my opinion, pure ingenuity. At compile time, there are two rules that `rustc` (Rust compiler) allows the programmer to have regarding allocating memory:
+
+1. There can only be one owner for a value
+2. The value is dropped when the owner goes out of scope.
+
+Consider the program below:
+
+```rust
+#[derive(Debug)]
+struct MyStruct {
+    attrOne: String
+}
+
+fn main() {
+    let my_struct = MyStruct {
+        attrOne: "test".to_string()
+    };
+    let returned_struct = consumeAndReturn(my_struct);
+    consume(returned_struct);
+
+    // Compiler complains because the returned_struct was moved.
+    println!("{:?}", returned_struct);
+}
+
+fn consume(consumingStruct: MyStruct) {
+    // Do something with consumingStruct
+}
+
+fn consumeAndReturn(consumingStruct: MyStruct) -> MyStruct {
+    // Do something with consumingStruct
+    consumingStruct
+}
+```
+
+The `consume` function - as its name suggests - _consumes_ the value `returned_struct`; in Rust's terminology, we say the value `returned_struct` is _moved_. Moving a value transfers ownership to wherever the value was moved - so in this case, the ownership is claimed by the `consume` function. When the value is moved, the initial ownership (which was for `main`) transferred to the `consume` function and the `println` macro would err at compile time.
+
+However, note that `consumeAndReturn` returns the moved value back, therefore returning the ownership back to the `main` function. This makes passing `returned_construct` possible to `consume` function.
+
+{: .highlight }
+Structs, by default in Rust, are stored in the stack. Rust generally stores in stack the data structures that it could determine the size of at compile time. Stuff like vectors and strings are stored in heap, and require some mediation to store because of their flexible nature. However, if you have a recursive struct, a linked list (for example), where a `Node` struct refers to another `Node` through an attribute, you would probably have to use a `Box` type to store it in heap.
+
+This compile-time check is imperative to discuss how Rust is unique. When the value goes out of scope (i.e., after `consume` is called), the string `"test"` will be deallocated. There would be no waiting for GC cyles. Each thread in a Rust program can manage its own memory independently, without needing to synchronize with other threads or pause the entire program.
