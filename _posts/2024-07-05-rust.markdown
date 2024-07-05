@@ -102,3 +102,11 @@ Structs, by default in Rust, are stored in the stack. Rust generally stores in s
 This compile-time check is imperative to discuss how Rust is unique. When the value goes out of scope (i.e., after `consume` is called), the string `"test"` will be deallocated. There would be no waiting for GC cyles. Each thread in a Rust program can manage its own memory independently, without needing to synchronize with other threads or pause the entire program. 
 
 One of the other problems that the ownership concept solves is the so-called "dangling pointer" problem. Say that you have a traditional C pointer that points to an object and the object is cleared out (deallocated) but the pointer is accessed by the program. The pointer, at its present state, is called a dangling pointer, and is cause to many memory bugs. Notice that dangling pointers are very rare (not impossible, though; if you use `unsafe` then you'd have to manage them on your own) in Rust because they are caught at compile time.
+
+## Programming in Rust
+
+I've tried writing some Rust programs, and one thing I've realised is you need a different mindset to write Rust programs. You need to utilise the concepts of borrowing and moving correctly without dashing towards `clone` or `to_owned` all the time; even though it makes it easier to write your program, it wouldn't give you the speed and the efficiency that Rust guarantees to give you.
+
+With such good memory management comes another set of programming constructs that we need to adhere to, such as [Lifetimes](https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html){:target="_blank"}. When you attach shared references to structs (or function signatures), you have to attach lifetimes to the references to guarantee that the the value the reference refer to does not outlive the container (function or the struct) that could potentially lead to a memory leak. These are easy to miss when writing Rust code, but they are guarantees required by the compiler to perform Rust in its full power. 
+
+When you write Rust code, you feel that you are writing Rust code. The pattern matchings applied to `Result` and `Option` is a very common construct that you see in many Rust codebases that makes the syntax sort of unique. 
