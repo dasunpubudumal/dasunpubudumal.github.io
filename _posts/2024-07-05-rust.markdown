@@ -113,3 +113,20 @@ When you write Rust code, you feel that you are writing Rust code. Maybe it's be
 
 How Rust uses its `Result` system is, in my opinion, fantastic. It uses pattern matching with `Ok` and `Err` arms to match the result and continue. The same pattern is used with `Option`, where patterns are matched with `Some` and `None`. Pattern matching can be found in many places in Rust; another non-trivial example would be declaring macros.
 
+Unlike Java, testing in Rust is built-in. You declare a module as a test with an attribute using the `test` macro, and off you go! 
+
+```rust
+#[test]
+fn test_seek_with_add() {
+    let mut scanner = Scanner::new("abc");
+    let mut vector = Vec::new();
+    scanner.seek_with_add(&mut vector);
+    assert_eq!(vector, vec!['a']);
+    assert_eq!(scanner.current_ptr, 1);
+    assert_eq!(scanner.code_chars.peek(), Some(&'b'));
+}
+```
+
+## Conclusion
+
+I'm still getting into the Rust ecosystem. I haven't gone through how Rust handles concurrency, smart pointers (although I've had a little experinece using the `Box` type) and `unsafe`. There's a lot to learn. I have started developing a compiler frontend, and I've completed the [lexer](https://github.com/dasunpubudumal/rlox_lexer){:target="_blank"} in Rust, which was a very nice experience. I've found out how hepful the Rust compiler can be, and how its LSP (Language Server Protocol) `rust-analyzer` can aid the developers in getting stuff done. I have peeked at Rust's own compiler for some inspiration for the project, but mostly I'm using [Crafting Interpreters](https://craftinginterpreters.com/contents.html){:target="_blank"} book by Robert Nystrom. Interesting fact about Rust compiler: it's written in Rust. The first compiler was not - obviously - written in Rust but in OCaml. The succeeding generations of compiler versions were [bootstrapped](https://en.wikipedia.org/wiki/Bootstrapping_(compilers)){:target="_blank"}; so what you'll find in Rust's Open Source code is the `rustc` compiler written in Rust.
