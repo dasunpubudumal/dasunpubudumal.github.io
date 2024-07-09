@@ -97,6 +97,9 @@ The `consume` function - as its name suggests - _consumes_ the value `returned_s
 However, note that `consumeAndReturn` returns the moved value back, therefore returning the ownership back to the `main` function. This makes passing `returned_construct` possible to `consume` function.
 
 <div class="alert alert-primary">
+
+### Struct v Heap
+
   Structs, by default in Rust, are stored in the stack. Rust generally stores in stack the data structures that it could determine the size of at compile time. Stuff like vectors and strings are stored in heap, and require some mediation to store because of their flexible nature. However, if you have a recursive struct, a linked list (for example), where a <code>Node</code> struct refers to another <code>Node</code> through an attribute, you would probably have to use a <code>Box</code> type to store it in heap. <br><br>
 
   The physical address space runs from 0 to somewhere around 2<sup>64</sup> - 1 (for a 64-bit system) and the stack in the address space lies around the topmost region of the memory. The heap, on the other hand, lives near the bottom-most region of the memory. Between the two, there are some regions that heap and the stack is not allowed to expand (to prevent overflows of regions).<br><br>
