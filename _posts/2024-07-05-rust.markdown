@@ -6,7 +6,7 @@ categories: rlox
 ---
 
 
-Recently, I've started learning a bit of Rust, here and there, in my spare time. I work full time with Ruby and Python (I used to do a lot of Java as well). One of the true regrets that I have in my career (short career; I started programming professionally - people call it "Software Development" - in 2020) is that I never started out, or got to use C/C++ professionally, or even for my own projects. I was introduced to Python when I was in my university for a module on introduction to programming. I knew some Java before that, only to run probably the simplest command-line calculator. 
+Recently, I've started learning a bit of Rust, here and there, in my spare time. I work full time with Ruby and Python (I used to do a lot of Java as well). One of the true regrets that I have in my career (short career; I started programming professionally - people call it "Software Development" - in 2020) is that I never started out, or got to use C/C++ professionally, or even for my own projects. I was introduced to Python when I was in my university for a module on introduction to programming. I knew some Java before that, only to run probably the simplest command-line calculator.
 
 I had heared about Rust before. As probably everyone did, I had heard of it as a "systems programming language". I had heard that it was fast, and more importantly, I had heard that it requires a different style (is it _style_? I'm not entirely sure) of programming. So, I got involved in one of the projects that is in its early stages, in Rust. It was **not** in any way related to a compiler, but it got me started off with Rust.
 
@@ -40,9 +40,9 @@ public class MyClass {
 
 The behavior is a bit different when you use custom types, such as `SomeType`. When you pass a variable that refers to `someObject` into `doSomething` function, that reference is copied, but the resulting copy of the reference still points to the object in memory. Unlike primitive types, custom types live on the heap, and are not part of the stack to be popped off when the calling function's activation record (stack frame) is popped off. It lives on the heap until some form of cleaning reclaims that memory by cleaning that object out from memory.
 
-One option is to use some cleaning strategy like [Reference Counting](https://en.wikipedia.org/wiki/Reference_counting){:target="_blank"}. Everytime an object is being referred, the reference count associated to the object increases (this can be implemented through smart pointers i.e., pointers that have metadata attached). And more importantly, when each reference is popped off, the count is decremented by one. When the count reaches 0, the corresponding object is immediately removed from heap and the memory reclaimed. Another very popular strategy is [Tracing Collectors](https://en.wikipedia.org/wiki/Tracing_garbage_collection){:target="_blank"}, where algorithms such as [Mark and Sweep](https://www.cs.odu.edu/~zeil/cs330/f13/Public/garbageCollection/garbageCollection-htmlsu5.html){:target="_blank"} takes place; you mark every reachable object from a GC (Garbage Collection) root, and claim the unmarked ones later on in a GC cycle. 
+One option is to use some cleaning strategy like [Reference Counting](https://en.wikipedia.org/wiki/Reference_counting){:target="_blank"}. Everytime an object is being referred, the reference count associated to the object increases (this can be implemented through smart pointers i.e., pointers that have metadata attached). And more importantly, when each reference is popped off, the count is decremented by one. When the count reaches 0, the corresponding object is immediately removed from heap and the memory reclaimed. Another very popular strategy is [Tracing Collectors](https://en.wikipedia.org/wiki/Tracing_garbage_collection){:target="_blank"}, where algorithms such as [Mark and Sweep](https://www.cs.odu.edu/~zeil/cs330/f13/Public/garbageCollection/garbageCollection-htmlsu5.html){:target="_blank"} takes place; you mark every reachable object from a GC (Garbage Collection) root, and claim the unmarked ones later on in a GC cycle.
 
-Garbage Collection is very popular. Especially among [JVM](https://www.oracle.com/webfolder/technetwork/tutorials/obe/java/gc01/index.html){:target="_blank"} enthusiasts, [Node](https://nodejs.org/en/learn/diagnostics/memory/using-gc-traces){:target="_blank"} and enthusiasts. Java memory model fits perfectly for Garbage Collection. It's got generational spaces where young and old generation objects could live in, and objects are passed from younger to older generations through GC cyles (minor and major). It's a very nice approach to clean objects out. However, the problem lies in a _temporal_ measure: "when" would this take place, and what happens when it does. 
+Garbage Collection is very popular. Especially among [JVM](https://www.oracle.com/webfolder/technetwork/tutorials/obe/java/gc01/index.html){:target="_blank"} enthusiasts, [Node](https://nodejs.org/en/learn/diagnostics/memory/using-gc-traces){:target="_blank"} and enthusiasts. Java memory model fits perfectly for Garbage Collection. It's got generational spaces where young and old generation objects could live in, and objects are passed from younger to older generations through GC cyles (minor and major). It's a very nice approach to clean objects out. However, the problem lies in a _temporal_ measure: "when" would this take place, and what happens when it does.
 
 ### When?
 
@@ -52,7 +52,7 @@ A minor GC is trigerred (theoretically), in the JVM, when the eden space is fill
 
 Generally, a GC cycle prompts a Stop-The-World (STW) event. That is, it stops user-program execution until objects are moved (and probably until defragmentation finishes) to other generations, and finally corresponding memory is reclaimed. The STW is a worrying prospect for different application domains. If the application GCs often (i.e., frequent GC cycles) and very rapidly, this would directly impact the throughput of the application. There are some options that - after a proper study - programmers could take such as changing the type of GC (although in prior to this, a proper study must be carried out in order to figure out _why_ the application GCs so much), but this again just minimizes the problem, and do not get rid of the root of the problem itself.
 
-Rust is able to give a very elegant solution to both of these problems. 
+Rust is able to give a very elegant solution to both of these problems.
 
 ## Ownership
 
@@ -102,13 +102,13 @@ However, note that `consumeAndReturn` returns the moved value back, therefore re
 
   The physical address space runs from 0 to somewhere around 2<sup>64</sup> - 1 (for a 64-bit system) and the stack in the address space lies around the topmost region of the memory. The heap, on the other hand, lives near the bottom-most region of the memory. Between the two, there are some regions that heap and the stack is not allowed to expand (to prevent overflows of regions).<br><br>
 
-  <pre>
+  <pre style="background-color: white">
     +---------------------+ High Address (Top of memory)
     |       Stack         |
     |                     |
     |         |           |
     |         v           |
-    |---------------------| 
+    |---------------------|
     |       Unused        |
     |---------------------|
     |         ^           |
@@ -126,7 +126,7 @@ However, note that `consumeAndReturn` returns the moved value back, therefore re
 </div>
 
 
-This compile-time check is imperative to discuss how Rust is unique. When the value goes out of scope (i.e., after `consume` is called), the string `"test"` will be deallocated. There would be no waiting for GC cyles. Each thread in a Rust program can manage its own memory independently, without needing to synchronize with other threads or pause the entire program. 
+This compile-time check is imperative to discuss how Rust is unique. When the value goes out of scope (i.e., after `consume` is called), the string `"test"` will be deallocated. There would be no waiting for GC cyles. Each thread in a Rust program can manage its own memory independently, without needing to synchronize with other threads or pause the entire program.
 
 One of the other problems that the ownership concept solves is the so-called "dangling pointer" problem. Say that you have a traditional C pointer that points to an object and the object is cleared out (deallocated) but the pointer is accessed by the program. The pointer, at its present state, is called a dangling pointer, and is cause to many memory bugs. Notice that dangling pointers are very rare (not impossible, though; if you use `unsafe` then you'd have to manage them on your own) in Rust because they are caught at compile time.
 
@@ -134,13 +134,13 @@ One of the other problems that the ownership concept solves is the so-called "da
 
 I've tried writing some Rust programs, and one thing I've realised is you need a different mindset to write Rust programs. You need to utilise the concepts of borrowing and moving correctly without dashing towards `clone` or `to_owned` all the time; even though it makes it easier to write your program, it wouldn't give you the speed and the efficiency that Rust guarantees to give you.
 
-With such good memory management comes another set of programming constructs that we need to adhere to, such as [Lifetimes](https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html){:target="_blank"}. When you attach shared references to structs (or function signatures), you have to attach lifetimes to the references to guarantee that the the value the reference refer to does not outlive the container (function or the struct) that could potentially lead to a memory leak (Rust checks these with its Borrow Checker). These are easy to miss when writing Rust code, but they are guarantees required by the compiler to perform Rust in its full power. 
+With such good memory management comes another set of programming constructs that we need to adhere to, such as [Lifetimes](https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html){:target="_blank"}. When you attach shared references to structs (or function signatures), you have to attach lifetimes to the references to guarantee that the the value the reference refer to does not outlive the container (function or the struct) that could potentially lead to a memory leak (Rust checks these with its Borrow Checker). These are easy to miss when writing Rust code, but they are guarantees required by the compiler to perform Rust in its full power.
 
 When you write Rust code, you feel that you are writing Rust code. Maybe it's because I'm new to a language that you need to worry much about memory. In Java, it's not that you _don't_ care about memory; it's just that the majority of stuff related to memory are handled by the JVM. Nevertheless, even with proper memory management, memory leaks are entirely possible. In C/C++, you need to `malloc` and `free` memory yourselves. If you miss a `free` invocation, it's likely to lead your program to a leak and - more importantly - a security vulnerability. Rust combines the best of both worlds: you do not require to do mallocs and frees - the ownership system will take care that for you.
 
 How Rust uses its `Result` system is, in my opinion, fantastic. It uses pattern matching with `Ok` and `Err` arms to match the result and continue. The same pattern is used with `Option`, where patterns are matched with `Some` and `None`. Pattern matching can be found in many places in Rust; another non-trivial example would be declaring macros.
 
-Unlike Java, testing in Rust is built-in. You declare a module as a test with an attribute using the `test` macro, and off you go! 
+Unlike Java, testing in Rust is built-in. You declare a module as a test with an attribute using the `test` macro, and off you go!
 
 ```rust
 #[test]
