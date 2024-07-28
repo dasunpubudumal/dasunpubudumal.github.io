@@ -79,3 +79,5 @@ pub fn scan_tokens(mut self) -> Self {
 ```
 
 It iterates over the string until the cursor reaches its end or find an error somewhere. Note that when `scan_tokens` function is called, the scanner is moved to the argument `self`. When the function is returned, it's moved out allowing the scanner to be used after the `scan_tokens` function is done.
+
+TBC
