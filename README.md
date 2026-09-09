@@ -83,6 +83,22 @@ Regenerate the social preview PNG after editing the SVG:
 node -e "const s=require('sharp'),f=require('fs');s(Buffer.from(f.readFileSync('public/og-default.svg'))).resize(1200,630).png().toFile('public/og-default.png')"
 ```
 
+### View counts
+
+Per-post view counts are shown on each post and on the writing index, powered by
+[GoatCounter](https://www.goatcounter.com) (privacy-friendly: no cookies, no
+personal data). To turn them on:
+
+1. Create a free GoatCounter account — pick a site code (the `NAME` in
+   `NAME.goatcounter.com`).
+2. In GoatCounter → **Settings**, tick **"Allow adding visitor counts on your
+   website"** (off by default — numbers stay hidden on the site until this is on).
+3. Set `analytics.goatcounter` in `src/site.config.ts` to your site code.
+
+That's it — `src/components/Analytics.astro` loads the tracker and fills the
+counts client-side. Leave the config value empty to disable tracking and hide
+every count. A post with no views yet shows nothing (not "0 views").
+
 ## Commands
 
 | Command | Action |
@@ -121,6 +137,7 @@ No custom domain — if you add one later, drop a `public/CNAME` file and set
 - Variable fonts via [Fontsource](https://fontsource.org) (self-hosted, no
   external font requests)
 - `@astrojs/sitemap` — `sitemap-index.xml`
+- [GoatCounter](https://www.goatcounter.com) — optional, privacy-friendly view counts
 - GitHub Actions + GitHub Pages — hosting
 
 ## License

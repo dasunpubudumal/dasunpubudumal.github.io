@@ -1,0 +1,81 @@
+---
+import { site } from '../site.config';
+
+// Rendered once per page (end of <body> in BaseLayout).
+const code = site.analytics?.goatcounter?.trim();
+const endpoint = code ? `https://${code}.goatcounter.com` : null;
+---
+
+{
+  endpoint && (
+    <Fragment>
+      {/*
+        Runs before count.js (below): sets the path normaliser so tracked paths
+        match the ones we query, then fills every <span data-views="/path">
+        with its pageview count.
+      */}
+      <script is:inline define:vars={{ endpoint }}>
+        window.goatcounter = {
+          path: function (p) {
+            return p.length > 1 && p.charAt(p.length - 1) === '/'
+              ? p.slice(0, -1)
+              : p;
+          },
+        };
+
+        (function () {
+          var nodes = document.querySelectorAll('[data-views]');
+          if (!nodes.length) return;
+
+          var cached = function (key) {
+            try {
+              var hit = JSON.parse(sessionStorage.getItem(key) || 'null');
+              if (hit && Date.now() - hit.t < 300000) return hit.v;
+            } catch (e) {}
+            return undefined;
+          };
+
+          var pending = {};
+          async function load(path) {
+            var key = 'views:' + path;
+            var hit = cached(key);
+            if (hit !== undefined) return hit;
+            try {
+              // No views yet -> 404 but still valid JSON; counter off -> parse throws.
+              var res = await fetch(
+                endpoint + '/counter/' + encodeURIComponent(path) + '.json'
+              );
+              var data = await res.json();
+              try {
+                sessionStorage.setItem(key, JSON.stringify({ t: Date.now(), v: data }));
+              } catch (e) {}
+              return data;
+            } catch (e) {
+              return null;
+            }
+          }
+
+          nodes.forEach(async function (el) {
+            var path = el.getAttribute('data-views');
+            pending[path] = pending[path] || load(path);
+            var data = await pending[path];
+            if (!data || data.count == null) return;
+            var n = parseInt(String(data.count).replace(/[^0-9]/g, ''), 10);
+            if (!n) return; // hide "0 views" on brand-new posts
+            var num = el.querySelector('[data-views-num]');
+            if (num) num.textContent = data.count;
+            el.hidden = false;
+          });
+        })();
+      </script>
+
+      {/* GoatCounter tracker — records the pageview. */}
+      <script
+        is:inline
+        async
+        src="https://gc.zgo.at/count.js"
+        data-goatcounter={`${endpoint}/count`}
+      />
+    </Fragment>
+  )
+}

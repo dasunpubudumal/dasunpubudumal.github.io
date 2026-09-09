@@ -31,6 +31,22 @@ export const site = {
 
   /** Posts per page on the writing index. */
   postsPerPage: 10,
+
+  /**
+   * Privacy-friendly page-view counts via GoatCounter (https://www.goatcounter.com) —
+   * no cookies, no personal data, GDPR-friendly.
+   *
+   *   1. Make a free account. Your "site code" is the sub-domain part of
+   *      <code>.goatcounter.com — put just that string below.
+   *   2. In GoatCounter → Settings → tick
+   *      "Allow adding visitor counts on your website" (it defaults to OFF, and
+   *      the numbers on the site stay hidden until it's on).
+   *
+   * Leave `goatcounter` empty to disable tracking and hide every view count.
+   */
+  analytics: {
+    goatcounter: '',
+  },
 };
 
 export type Social = (typeof site.socials)[number];

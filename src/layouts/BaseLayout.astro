@@ -3,6 +3,7 @@ import { site } from '../site.config';
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Analytics from '../components/Analytics.astro';
 
 interface Props {
   title?: string;
@@ -28,6 +29,7 @@ const { title, description, image, article, wide = false } = Astro.props;
       </div>
     </main>
     <Footer />
+    <Analytics />
 
     <style>
       .skip {

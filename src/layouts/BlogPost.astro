@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
+import ViewCount from '../components/ViewCount.astro';
 import { readingTime } from '../lib/reading-time';
 
 interface Props {
@@ -23,6 +24,7 @@ const mins = readingTime(post.body ?? '');
         {updatedDate && <FormattedDate date={updatedDate} prefix="· updated" />}
         <span class="sep" aria-hidden="true">/</span>
         <span>{mins} min read</span>
+        <ViewCount path={`/blog/${post.id}`} />
       </div>
       {
         tags.length > 0 && (

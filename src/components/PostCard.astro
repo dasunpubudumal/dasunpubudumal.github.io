@@ -1,5 +1,6 @@
 ---
 import FormattedDate from './FormattedDate.astro';
+import ViewCount from './ViewCount.astro';
 import { readingTime } from '../lib/reading-time';
 
 interface Props {
@@ -25,6 +26,7 @@ const mins = readingTime(post.body ?? '');
     <FormattedDate date={post.data.pubDate} />
     <span class="sep" aria-hidden="true">/</span>
     <span class="rt">{mins} min read</span>
+    <ViewCount path={href} compact />
   </div>
   <h3 class="title">{post.data.title}</h3>
   <p class="excerpt">{post.data.description}</p>
@@ -75,8 +77,12 @@ const mins = readingTime(post.body ?? '');
   }
   .meta {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.3rem 0.6rem;
+  }
+  .meta > * {
+    white-space: nowrap;
   }
   .sep {
     color: var(--text-faint);

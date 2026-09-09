@@ -1,0 +1,64 @@
+---
+import { site } from '../site.config';
+
+interface Props {
+  /** Page path exactly as GoatCounter records it, e.g. "/blog/hello-world". */
+  path: string;
+  /** Compact form (icon + number) for tight meta rows like post cards. */
+  compact?: boolean;
+}
+const { path, compact = false } = Astro.props;
+const enabled = !!site.analytics?.goatcounter?.trim();
+---
+
+{
+  enabled && (
+    <span class:list={['views', { compact }]} data-views={path} hidden>
+      <span class="views-sep" aria-hidden="true">
+        {compact ? '·' : '/'}
+      </span>
+      {compact && (
+        <svg
+          class="views-eye"
+          viewBox="0 0 24 24"
+          width="12"
+          height="12"
+          aria-hidden="true"
+        >
+          <path
+            d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+          <circle cx="12" cy="12" r="3" fill="currentColor" />
+        </svg>
+      )}
+      <span data-views-num>–</span>
+      {!compact && ' views'}
+      {compact && <span class="visually-hidden"> views</span>}
+    </span>
+  )
+}
+
+<style>
+  .views:not([hidden]) {
+    display: inline-flex;
+  }
+  .views {
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    white-space: nowrap;
+  }
+  .views-sep {
+    opacity: 0.5;
+  }
+  .views-eye {
+    opacity: 0.8;
+  }
+</style>
