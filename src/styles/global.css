@@ -211,6 +211,36 @@ pre code {
   font-size: inherit;
 }
 
+/* Keyboard shortcuts — `++Super+Space++` via remark-keys */
+.keys {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+kbd,
+.keys .key {
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  padding: 0.3em 0.55em;
+  border-radius: 6px;
+  background: linear-gradient(180deg, var(--surface-solid), var(--code-bg));
+  border: 1px solid var(--border-strong);
+  border-bottom-width: 2px;
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 color-mix(in oklab, var(--accent) 12%, transparent);
+}
+.keys .keys-sep {
+  font-family: var(--font-mono);
+  font-size: 0.7em;
+  color: var(--text-faint);
+}
+
 /* Shiki dual-theme output: the *light* theme is baked into the inline styles as
    the base, with `--shiki-dark-*` custom properties carrying the dark variant.
    The site is dark-first and switches via [data-theme], so we activate the dark

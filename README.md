@@ -57,6 +57,12 @@ cover: './hero.png'          # optional image next to the post file
 Markdown supports GitHub-flavored syntax: tables, task lists, footnotes, and
 fenced code blocks with build-time syntax highlighting (no client-side JS).
 
+**Keyboard shortcuts.** Write `++Super+Space++` (or `++Super + Space++`) and it
+renders as styled key caps. Names like `super`, `cmd`, `ctrl`, `opt`, `esc`,
+`return`, `up`/`down`/`left`/`right` are normalised; `++f5++` → `F5`; anything
+else is shown as typed. Implemented in `src/plugins/remark-keys.mjs` — a small
+remark plugin in the spirit of pymdown-extensions' *keys*.
+
 ## Customizing
 
 | What | Where |
@@ -66,6 +72,7 @@ fenced code blocks with build-time syntax highlighting (no client-side JS).
 | Home page | `src/pages/index.astro` |
 | About page | `src/pages/about.astro` |
 | Code themes (light / dark) | `astro.config.mjs` → `markdown.shikiConfig` |
+| Markdown plugins (e.g. key caps) | `src/plugins/`, wired in `astro.config.mjs` → `markdown.remarkPlugins` |
 | Favicon / social image | `public/favicon.svg`, `public/og-default.svg` (+ regenerate `og-default.png`) |
 
 Regenerate the social preview PNG after editing the SVG:

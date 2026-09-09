@@ -16,7 +16,7 @@ Omarchy was created by [DHH](https://dhh.dk/)[^1], the creator of Ruby on Rails.
 
 The cherry on-top is [Hyperland](https://hypr.land/) and [Quickshell](https://quickshell.org/). Hyperland is the tiling manager - I think this is what dragged me into Omarchy in the first place (well, that and the configs). I use macOS for work, and I have installed [yabai](https://github.com/asmvik/yabai) as the tiling manager and absolutely love it. Yabai has to fight against the native macOS weirdness while Hyperland in Omarchy acts as the primary display server. Omarchy desktop runs as a single long-lived Quickshell process (called `omarchy-shell`). Various elements like the top bar and drop-downs are just plugged in into the process as plugins. Because of this, developers can create their own customised UI components and plug them into the desktop.
 
-The ideal navigational workflow throughout Omarchy would be using only the keyboard[^3]. `Super + K` opens a window with all the shortcuts - and the content is searchable (which is a massive deal). Almost _all_ the navigation can be done via the keyboard. You switch workspaces with `Super + `, and it helps you to switch between without weird fading and scrolling animations that some operating systems have (yes, macOS). It’s super quick.
+The ideal navigational workflow throughout Omarchy would be using only the keyboard[^3]. ++Super + K++ opens a window with all the shortcuts - and the content is searchable (which is a massive deal). Almost _all_ the navigation can be done via the keyboard. You switch workspaces with ++Super + \<Workspace ID\>++, and it helps you to switch between without weird fading and scrolling animations that some operating systems have (yes, macOS). It’s super quick.
 
 Anyway, you can read more about [Omarchy](https://omarchy.org/) from the official docs. Following sections discuss my experiences on installing it, my thoughts on its first look and my thoughts on configuring it.
 
@@ -40,7 +40,7 @@ Then, I plugged the USB drive into a USB slot and booted the mini PC.
 
 ### Starting the installation and booting
 
-And then came the “Great Deletion”; me, hunched over my NuPhy keyboard, hammering `Delete` into the void[^6] an infinite number of times[^7], and got the BIOS settings window, and changed the boot order to boot from the USB drive, and restarted.
+And then came the “Great Deletion”; me, hunched over my NuPhy keyboard, hammering ++Delete++ into the void[^6] an infinite number of times[^7], and got the BIOS settings window, and changed the boot order to boot from the USB drive, and restarted.
 
 Then, the Omarchy installation window appeared :)
 
@@ -70,17 +70,17 @@ Imagine macOS without the dock. How do you find applications? [Spotlight](https:
 
 #### Opening Windows
 
-Omarchy is fully keyboard driven, so to open the spotlight[^9], you need to press the hotkey for it. There is one particular key that is the mother of all keys in Omarchy, and that is `Super`. There is no key called `Super` in my keyboard (hopefully, not in yours either unless you are a daredevil and have custom keycaps), and apparently, if you are in the macOS mode in your keyboard (in my keyboard, there are two modes; macOS and Windows), `Super` would be mapped to the `Cmd` key. If you are using a windows keyboard, `Super` would be the key with the Windows flag on it. If you are in a macOS keyboard (like my NuPhy) with the Windows mode on, your `Super` key would be `Opt`.
+Omarchy is fully keyboard driven, so to open the spotlight[^9], you need to press the hotkey for it. There is one particular key that is the mother of all keys in Omarchy, and that is ++Super++. There is no key called ++Super++ in my keyboard (hopefully, not in yours either unless you are a daredevil and have custom keycaps), and apparently, if you are in the macOS mode in your keyboard (in my keyboard, there are two modes; macOS and Windows), ++Super++ would be mapped to the ++Cmd++ key. If you are using a windows keyboard, ++Super++ would be the key with the Windows flag on it. If you are in a macOS keyboard (like my NuPhy) with the Windows mode on, your ++Super++ key would be ++Opt++.
 
-So, `Super + Space` would open the spotlight. It’s fully searchable. There, you can find, open and even install apps.
+So, ++Super + Space++ would open the spotlight. It’s fully searchable. There, you can find, open and even install apps.
 
-There’s a really helpful keybind viewer that pops up when you press `Super + K`. It is searchable as well.
+There’s a really helpful keybind viewer that pops up when you press ++Super + K++. It is searchable as well.
 
-The next thing I wanted to do was to open the terminal. So, I searched the `Super + K` window for `terminal`, and found the keybinding `Super + Return`.
+The next thing I wanted to do was to open the terminal. So, I searched the ++Super + K++ window for `terminal`, and found the keybinding ++Super + Return++.
 
 ![A single Foot terminal with Hyprland's window padding](./03-omarchy-terminal-padding.jpg)
 
-Notice the nice padding around the terminal? That’s Hyperland doing its thing. If I press `Super + Return` again, Hyperland would automatically tile the terminals neatly to the right of the screen.
+Notice the nice padding around the terminal? That’s Hyperland doing its thing. If I press ++Super + Return++ again, Hyperland would automatically tile the terminals neatly to the right of the screen.
 
 ![Two terminals tiled side by side by Hyprland](./04-omarchy-terminals-tiled.jpg)
 
@@ -88,7 +88,7 @@ Pretty cool.
 
 #### Development Setup
 
-My daily development workflow mostly consists of Neovim and Tmux. I knew both of them come built-in in Omarchy. So, `Super + K` came into the rescue and I used `Super + Opt + Return` (`Opt` is the `Alt` equivalent in my keyboard) to open Tmux.
+My daily development workflow mostly consists of Neovim and Tmux. I knew both of them come built-in in Omarchy. So, ++Super + K++ came into the rescue and I used ++Super + Opt + Return++ (++Opt++ is the ++Alt++ equivalent in my keyboard) to open Tmux.
 
 I have my own dotfiles for Neovim so I brought them into `~/.config/nvim` (especially the plugins and keybindings).
 
@@ -142,7 +142,7 @@ That is probably the only issue I had so far.
 
 ## Conclusion
 
-So, would I recommend Omarchy? If you’re the kind of developer who gets a little thrill out of a perfectly padded terminal window, who’d rather hit `Super + K` than click through three menus, and who doesn’t mind a bit of “hunched over the keyboard, hammering Delete into the void” energy during setup - yes, absolutely.
+So, would I recommend Omarchy? If you’re the kind of developer who gets a little thrill out of a perfectly padded terminal window, who’d rather hit ++Super + K++ than click through three menus, and who doesn’t mind a bit of “hunched over the keyboard, hammering Delete into the void” energy during setup - yes, absolutely.
 
 ---
 
@@ -170,7 +170,7 @@ I’m keeping it on the mini PC. I’m a bit salty on the $s I paid for the Wind
 
 [^1]: DHH is a controversial character. I personally don’t like his politics; I think it’s better to leave the character out, and focus on Omarchy - the product.
 [^2]: Omarchy has got Lazyvim OOTB. So, you’re all set there as well.
-[^3]: I have tried this (`Super + K` for keybindings helped!) and although it is possible throughout the OS, I _did_ have to move my hand when I was interacting with the browser.
+[^3]: I have tried this (++Super + K++ for keybindings helped!) and although it is possible throughout the OS, I _did_ have to move my hand when I was interacting with the browser.
 [^4]: I realised later that I actually had paid for the license key of that Windows distribution. Oh well, _c’est la vie_.
 [^5]: Think I went like 4 years back in time (not in space, obviously because I’m living in a different country now!).
 [^6]: The screen was literally black; but the power button of the PC is on so I know that it _is_ booting.
