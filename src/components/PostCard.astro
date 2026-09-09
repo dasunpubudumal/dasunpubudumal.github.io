@@ -41,7 +41,9 @@ const mins = readingTime(post.body ?? '');
       </ul>
     )
   }
-  <span class="go" aria-hidden="true">Read <span class="arrow">→</span></span>
+  <a class="go" href={href} aria-label={`Read "${post.data.title}"`}>
+    Read <span class="arrow" aria-hidden="true">→</span>
+  </a>
 </article>
 
 <style>
@@ -99,11 +101,20 @@ const mins = readingTime(post.body ?? '');
     font-size: 0.95rem;
   }
   .go {
+    align-self: flex-start;
     margin-top: 0.25rem;
     font-family: var(--font-mono);
     font-size: 0.78rem;
     color: var(--accent);
     letter-spacing: 0.04em;
+  }
+  .go:hover {
+    color: var(--accent-2);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .card:hover .go {
+    color: var(--accent-2);
   }
   .arrow {
     display: inline-block;
