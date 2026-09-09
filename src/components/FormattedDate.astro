@@ -1,0 +1,29 @@
+---
+import { site } from '../site.config';
+
+interface Props {
+  date: Date;
+  prefix?: string;
+}
+const { date, prefix } = Astro.props;
+
+const formatted = new Intl.DateTimeFormat(site.locale, {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+}).format(date);
+---
+
+<time datetime={date.toISOString()} class="date">
+  {prefix ? `${prefix} ` : ''}{formatted}
+</time>
+
+<style>
+  .date {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    letter-spacing: 0.04em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+  }
+</style>

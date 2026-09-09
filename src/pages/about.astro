@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../site.config';
+---
+
+<BaseLayout title="About" description={`About ${site.author}.`}>
+  <article class="prose reveal">
+    <p class="eyebrow">About</p>
+    <h1>{site.author}</h1>
+    <p class="lede">{site.intro}</p>
+
+    <p>
+      This page is yours to rewrite. Edit <code>src/pages/about.astro</code> and
+      say who you are, what you work on, and what someone landing here should
+      know. A few prompts:
+    </p>
+    <ul>
+      <li>What you're building or researching right now.</li>
+      <li>The problems you find most interesting.</li>
+      <li>How to reach you, and what you're open to.</li>
+    </ul>
+
+    <h2>Elsewhere</h2>
+    <ul>
+      {
+        site.socials.map((s) => (
+          <li>
+            <a href={s.href} target={s.href.startsWith('http') ? '_blank' : undefined} rel="me noopener">
+              {s.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <h2>Colophon</h2>
+    <p>
+      Built with <a href="https://astro.build" target="_blank" rel="noopener">Astro</a>,
+      written in Markdown, compiled to static HTML, and deployed to GitHub Pages
+      by a GitHub Actions workflow on every push to <code>main</code>.
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .lede {
+    font-size: 1.15rem;
+    color: var(--text-dim);
+    margin-top: 0.8rem;
+  }
+  .prose h2 {
+    margin-top: 2.5rem;
+  }
+  .prose ul {
+    padding-left: 1.3rem;
+  }
+  .prose li {
+    margin-block: 0.35rem;
+  }
+  .prose li::marker {
+    color: var(--accent);
+  }
+  .prose a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

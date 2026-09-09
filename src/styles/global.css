@@ -1,0 +1,451 @@
+/* ============================================================================
+   Personal site — futuristic theme
+   Dark by default, light via [data-theme="light"]. All colour goes through
+   tokens so components never hard-code a hex value.
+   ========================================================================== */
+
+@import '@fontsource-variable/space-grotesk';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/jetbrains-mono';
+
+:root {
+  --font-display: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* --- dark (default) ------------------------------------------------------ */
+  --bg: #05060a;
+  --bg-elevated: #0b0e16;
+  --surface: rgba(20, 25, 38, 0.55);
+  --surface-solid: #10131d;
+  --border: rgba(120, 140, 190, 0.16);
+  --border-strong: rgba(140, 165, 220, 0.32);
+  --text: #e7ecf5;
+  --text-dim: #9aa4b8;
+  --text-faint: #6b7488;
+  --accent: #4de3ff;
+  --accent-2: #a97bff;
+  --accent-3: #ff6ec7;
+  --accent-contrast: #05060a;
+  --glow: 0 0 40px -8px rgba(77, 227, 255, 0.45);
+  --grid-line: rgba(120, 150, 210, 0.06);
+  --selection: rgba(169, 123, 255, 0.35);
+  --shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.7);
+  --code-bg: #0a0d16;
+
+  --maxw: 46rem;
+  --maxw-wide: 68rem;
+  --radius: 14px;
+  --radius-sm: 9px;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  color-scheme: dark;
+}
+
+[data-theme='light'] {
+  --bg: #f6f7fb;
+  --bg-elevated: #ffffff;
+  --surface: rgba(255, 255, 255, 0.7);
+  --surface-solid: #ffffff;
+  --border: rgba(20, 40, 90, 0.12);
+  --border-strong: rgba(20, 40, 90, 0.24);
+  --text: #10131d;
+  --text-dim: #47506a;
+  --text-faint: #7b8398;
+  --accent: #0aa2c4;
+  --accent-2: #7a3cf0;
+  --accent-3: #d6317f;
+  --accent-contrast: #ffffff;
+  --glow: 0 0 40px -12px rgba(10, 162, 196, 0.35);
+  --grid-line: rgba(30, 60, 130, 0.06);
+  --selection: rgba(122, 60, 240, 0.18);
+  --shadow: 0 20px 45px -22px rgba(20, 30, 70, 0.25);
+  --code-bg: #f2f4f9;
+
+  color-scheme: light;
+}
+
+/* ---------------------------------------------------------------------------
+   Reset-ish
+   ------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1.02rem;
+  line-height: 1.7;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--selection);
+  color: var(--text);
+}
+
+/* Animated backdrop: fixed grid + drifting aurora blobs */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+}
+
+body::before {
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 100% 60% at 50% 0%, #000 40%, transparent 100%);
+}
+
+body::after {
+  z-index: -3;
+  background:
+    radial-gradient(38rem 38rem at 12% -10%, color-mix(in oklab, var(--accent) 22%, transparent), transparent 70%),
+    radial-gradient(34rem 34rem at 92% 8%, color-mix(in oklab, var(--accent-2) 20%, transparent), transparent 70%),
+    radial-gradient(30rem 30rem at 60% 110%, color-mix(in oklab, var(--accent-3) 14%, transparent), transparent 70%);
+  animation: drift 26s var(--ease) infinite alternate;
+}
+
+@keyframes drift {
+  to {
+    transform: translate3d(0, -3%, 0) scale(1.08);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Typography
+   ------------------------------------------------------------------------- */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(2rem, 1.4rem + 3vw, 3.1rem);
+}
+h2 {
+  font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2rem);
+}
+h3 {
+  font-size: 1.25rem;
+}
+
+p,
+ul,
+ol,
+blockquote,
+pre,
+table {
+  margin-block: 1rem;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.18s var(--ease);
+}
+a:hover {
+  color: var(--accent-2);
+}
+
+strong {
+  color: var(--text);
+  font-weight: 650;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+:not(pre) > code {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.12em 0.4em;
+  color: var(--accent);
+}
+
+pre {
+  background: var(--code-bg) !important;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1.1rem 1.2rem;
+  overflow-x: auto;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+/* Shiki dual-theme: default vars are dark; swap on light */
+[data-theme='light'] .astro-code,
+[data-theme='light'] .astro-code span {
+  color: var(--shiki-light) !important;
+  background-color: var(--shiki-light-bg) !important;
+  font-style: var(--shiki-light-font-style) !important;
+  font-weight: var(--shiki-light-font-weight) !important;
+  text-decoration: var(--shiki-light-text-decoration) !important;
+}
+
+blockquote {
+  border-left: 2px solid var(--accent);
+  padding-left: 1.1rem;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+  margin-block: 2.5rem;
+}
+
+img {
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+th,
+td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+th {
+  background: var(--surface);
+  font-family: var(--font-display);
+}
+
+/* ---------------------------------------------------------------------------
+   Layout primitives
+   ------------------------------------------------------------------------- */
+.wrap {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+.wrap--wide {
+  max-width: var(--maxw-wide);
+}
+
+main {
+  padding-block: 3.5rem 5rem;
+  min-height: 60vh;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.eyebrow::before {
+  content: '';
+  width: 1.6rem;
+  height: 1px;
+  background: var(--accent);
+}
+
+.gradient-text {
+  background: linear-gradient(100deg, var(--accent), var(--accent-2) 55%, var(--accent-3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Glass card with animated gradient hairline border */
+.panel {
+  position: relative;
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  transition:
+    transform 0.25s var(--ease),
+    border-color 0.25s var(--ease),
+    box-shadow 0.25s var(--ease);
+}
+.panel:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow);
+}
+
+.btn {
+  --pad: 0.7rem 1.15rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: var(--pad);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  background: var(--surface);
+  transition:
+    background 0.2s var(--ease),
+    color 0.2s var(--ease),
+    box-shadow 0.2s var(--ease),
+    transform 0.2s var(--ease);
+}
+.btn:hover {
+  transform: translateY(-2px);
+  color: var(--text);
+}
+.btn--primary {
+  background: linear-gradient(100deg, var(--accent), var(--accent-2));
+  color: var(--accent-contrast);
+  border-color: transparent;
+  font-weight: 600;
+}
+.btn--primary:hover {
+  box-shadow: var(--glow);
+  color: var(--accent-contrast);
+}
+
+/* Tag chips */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  background: var(--code-bg);
+  transition: all 0.18s var(--ease);
+}
+.tag::before {
+  content: '#';
+  color: var(--accent);
+}
+a.tag:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+}
+
+/* Link with animated underline sweep */
+.link-underline {
+  position: relative;
+  color: var(--text);
+}
+.link-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s var(--ease);
+}
+.link-underline:hover {
+  color: var(--text);
+}
+.link-underline:hover::after {
+  transform: scaleX(1);
+}
+
+/* Scroll-reveal (progressively enhanced by JS; visible by default) */
+.reveal {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.6s var(--ease),
+      transform 0.6s var(--ease);
+  }
+  .js .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

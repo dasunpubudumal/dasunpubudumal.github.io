@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getTags } from '../../lib/posts';
+
+const { counts } = await getTags();
+const max = Math.max(1, ...counts.map(([, n]) => n));
+---
+
+<BaseLayout title="Tags" description="Browse writing by topic." wide>
+  <header class="page-head reveal">
+    <p class="eyebrow">Index</p>
+    <h1>Tags</h1>
+    <p class="sub">{counts.length} topics across the archive.</p>
+  </header>
+
+  {
+    counts.length === 0 ? (
+      <p class="panel reveal">No tags yet.</p>
+    ) : (
+      <ul class="cloud reveal">
+        {counts.map(([tag, n]) => (
+          <li>
+            <a href={`/tags/${tag}`} class="chip" style={`--w:${0.85 + (n / max) * 0.9}`}>
+              <span class="hash">#</span>{tag}
+              <span class="count">{n}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .page-head {
+    margin-bottom: 2.5rem;
+  }
+  .page-head h1 {
+    margin-top: 0.6rem;
+  }
+  .sub {
+    margin-top: 0.8rem;
+    color: var(--text-dim);
+  }
+  .cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    list-style: none;
+    padding: 0;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: calc(0.8rem * var(--w, 1));
+    transition:
+      border-color 0.18s var(--ease),
+      box-shadow 0.18s var(--ease),
+      transform 0.18s var(--ease);
+  }
+  .chip:hover {
+    border-color: var(--accent);
+    box-shadow: var(--glow);
+    transform: translateY(-2px);
+    color: var(--text);
+  }
+  .hash {
+    color: var(--accent);
+  }
+  .count {
+    padding: 0.05rem 0.4rem;
+    border-radius: 999px;
+    background: var(--code-bg);
+    color: var(--text-faint);
+    font-size: 0.72em;
+  }
+</style>

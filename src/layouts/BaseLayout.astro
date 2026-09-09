@@ -1,0 +1,70 @@
+---
+import { site } from '../site.config';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  article?: boolean;
+  wide?: boolean;
+}
+const { title, description, image, article, wide = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang={site.locale}>
+  <head>
+    <BaseHead title={title} description={description} image={image} article={article} />
+  </head>
+  <body>
+    <a href="#main" class="skip">Skip to content</a>
+    <Header />
+    <main id="main">
+      <div class:list={['wrap', { 'wrap--wide': wide }]}>
+        <slot />
+      </div>
+    </main>
+    <Footer />
+
+    <style>
+      .skip {
+        position: absolute;
+        left: 1rem;
+        top: -3rem;
+        z-index: 100;
+        padding: 0.5rem 0.9rem;
+        background: var(--surface-solid);
+        border: 1px solid var(--border-strong);
+        border-radius: 8px;
+        transition: top 0.2s var(--ease);
+      }
+      .skip:focus {
+        top: 1rem;
+      }
+    </style>
+
+    <script>
+      // Progressive scroll-reveal.
+      const els = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window && els.length) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-visible');
+                io.unobserve(e.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -8% 0px' }
+        );
+        els.forEach((el) => io.observe(el));
+      } else {
+        els.forEach((el) => el.classList.add('is-visible'));
+      }
+    </script>
+  </body>
+</html>

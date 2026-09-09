@@ -1,0 +1,48 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getTags } from '../../lib/posts';
+
+export const getStaticPaths = (async () => {
+  const { map } = await getTags();
+  return [...map.entries()].map(([tag, posts]) => ({
+    params: { tag },
+    props: { tag, posts },
+  }));
+}) satisfies GetStaticPaths;
+
+const { tag, posts } = Astro.props;
+---
+
+<BaseLayout title={`#${tag}`} description={`Writing tagged ${tag}.`} wide>
+  <header class="page-head reveal">
+    <p class="eyebrow"><a href="/tags" class="link-underline">Tags</a> / {tag}</p>
+    <h1><span class="gradient-text">#{tag}</span></h1>
+    <p class="sub">
+      {posts.length} {posts.length === 1 ? 'post' : 'posts'}
+    </p>
+  </header>
+
+  <div class="grid">
+    {posts.map((post) => <PostCard post={post} />)}
+  </div>
+</BaseLayout>
+
+<style>
+  .page-head {
+    margin-bottom: 2.5rem;
+  }
+  .page-head h1 {
+    margin-top: 0.6rem;
+  }
+  .sub {
+    margin-top: 0.8rem;
+    color: var(--text-dim);
+  }
+  .grid {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
+  }
+</style>

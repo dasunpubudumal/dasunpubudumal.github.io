@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="404" description="Signal lost.">
+  <section class="lost reveal">
+    <p class="glitch" data-text="404">404</p>
+    <h1>Signal lost</h1>
+    <p class="sub">That coordinate doesn't resolve. The page may have moved or never existed.</p>
+    <a href="/" class="btn btn--primary">Return to base</a>
+  </section>
+</BaseLayout>
+
+<style>
+  .lost {
+    text-align: center;
+    padding-block: 4rem;
+  }
+  .glitch {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(5rem, 3rem + 14vw, 11rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    background: linear-gradient(100deg, var(--accent), var(--accent-2), var(--accent-3));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      background: inherit;
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+    .glitch::before {
+      animation: glitch 2.6s infinite steps(2, end);
+      transform: translateX(-2px);
+      opacity: 0.6;
+    }
+    .glitch::after {
+      animation: glitch 3.4s infinite reverse steps(2, end);
+      transform: translateX(2px);
+      opacity: 0.5;
+    }
+    @keyframes glitch {
+      0%, 92%, 100% { clip-path: inset(0 0 0 0); }
+      93% { clip-path: inset(20% 0 55% 0); }
+      96% { clip-path: inset(60% 0 8% 0); }
+    }
+  }
+  .sub {
+    margin: 1rem auto 2rem;
+    color: var(--text-dim);
+    max-width: 30rem;
+  }
+</style>
