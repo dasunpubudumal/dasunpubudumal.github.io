@@ -26,6 +26,7 @@ export const site = {
     { label: 'Writing', href: '/blog' },
     { label: 'Tags', href: '/tags' },
     { label: 'About', href: '/about' },
+    { label: 'Resume', href: '/resume' },
   ],
 
   /** Posts per page on the writing index. */

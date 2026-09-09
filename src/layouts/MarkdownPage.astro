@@ -1,0 +1,106 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+/**
+ * Layout for standalone Markdown pages in `src/pages/*.md`.
+ * Drive it from the file's frontmatter:
+ *   layout: ../layouts/MarkdownPage.astro
+ *   title: Résumé
+ *   eyebrow: Résumé          # small label above the heading (optional)
+ *   heading: Dasun Pubudumal # <h1> text; falls back to `title`
+ *   description: ...          # <meta> description (optional)
+ *   pdf: /resume.pdf          # adds a download button (optional)
+ *   updated: December 2024    # shown under the button (optional)
+ */
+const { frontmatter } = Astro.props;
+const heading = frontmatter.heading ?? frontmatter.title;
+---
+
+<BaseLayout title={frontmatter.title} description={frontmatter.description}>
+  <article class="page reveal">
+    <header class="page-head">
+      {frontmatter.eyebrow && <p class="eyebrow">{frontmatter.eyebrow}</p>}
+      <h1>{heading}</h1>
+      {
+        frontmatter.pdf && (
+          <p class="actions">
+            <a class="btn btn--primary" href={frontmatter.pdf} download>
+              Download PDF
+            </a>
+            {frontmatter.updated && (
+              <span class="updated">Updated {frontmatter.updated}</span>
+            )}
+          </p>
+        )
+      }
+    </header>
+
+    <div class="prose">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .page-head {
+    padding-bottom: 1.5rem;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .page-head h1 {
+    margin-top: 0.6rem;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.9rem;
+    margin-top: 1.4rem;
+  }
+  .updated {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  /* Denser rhythm than a blog post — a résumé has a lot of headings. */
+  .prose :global(h2) {
+    margin-top: 2.75rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .prose :global(h3) {
+    margin-top: 1.6rem;
+    font-size: 1.05rem;
+  }
+  .prose :global(h2 + p),
+  .prose :global(h3 + p) {
+    margin-top: 0.5rem;
+  }
+  .prose :global(ul) {
+    padding-left: 1.15rem;
+  }
+  .prose :global(li) {
+    margin-block: 0.3rem;
+  }
+  .prose :global(li::marker) {
+    color: var(--accent);
+  }
+  .prose :global(li > p) {
+    margin: 0;
+  }
+  .prose :global(a) {
+    text-decoration: underline;
+    text-decoration-color: var(--border-strong);
+    text-underline-offset: 3px;
+  }
+  .prose :global(a:hover) {
+    text-decoration-color: var(--accent);
+  }
+</style>

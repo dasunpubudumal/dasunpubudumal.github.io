@@ -71,6 +71,8 @@ remark plugin in the spirit of pymdown-extensions' *keys*.
 | Colors, fonts, effects | `src/styles/global.css` (CSS custom properties at the top) |
 | Home page | `src/pages/index.astro` |
 | About page | `src/pages/about.astro` |
+| Résumé (Markdown) | `src/pages/resume.md` — plain Markdown via `src/layouts/MarkdownPage.astro`; the PDF button points at `public/resume.pdf` |
+| Nav links | `src/site.config.ts` → `nav` |
 | Code themes (light / dark) | `astro.config.mjs` → `markdown.shikiConfig` |
 | Markdown plugins (e.g. key caps) | `src/plugins/`, wired in `astro.config.mjs` → `markdown.remarkPlugins` |
 | Favicon / social image | `public/favicon.svg`, `public/og-default.svg` (+ regenerate `og-default.png`) |
