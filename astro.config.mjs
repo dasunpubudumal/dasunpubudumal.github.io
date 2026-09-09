@@ -13,8 +13,8 @@ export default defineConfig({
       // Futuristic, high-contrast code blocks. Both themes are bundled so the
       // site's light/dark toggle can swap them with CSS variables.
       themes: {
-        light: 'github-light',
-        dark: 'tokyo-night',
+        light: 'night-owl-light',
+        dark: 'night-owl',
       },
       wrap: false,
     },

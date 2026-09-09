@@ -31,7 +31,8 @@
   --grid-line: rgba(120, 150, 210, 0.06);
   --selection: rgba(169, 123, 255, 0.35);
   --shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.7);
-  --code-bg: #0a0d16;
+  /* Matches the Night Owl editor background so inline code and fenced blocks agree. */
+  --code-bg: #011627;
 
   --maxw: 46rem;
   --maxw-wide: 68rem;
@@ -60,7 +61,8 @@
   --grid-line: rgba(30, 60, 130, 0.06);
   --selection: rgba(122, 60, 240, 0.18);
   --shadow: 0 20px 45px -22px rgba(20, 30, 70, 0.25);
-  --code-bg: #f2f4f9;
+  /* Slight tint below the Night Owl Light editor background (#fbfbfb). */
+  --code-bg: #eef1f6;
 
   color-scheme: light;
 }
@@ -192,7 +194,7 @@ code {
 }
 
 pre {
-  background: var(--code-bg) !important;
+  background: var(--code-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   padding: 1.1rem 1.2rem;
@@ -209,14 +211,17 @@ pre code {
   font-size: inherit;
 }
 
-/* Shiki dual-theme: default vars are dark; swap on light */
-[data-theme='light'] .astro-code,
-[data-theme='light'] .astro-code span {
-  color: var(--shiki-light) !important;
-  background-color: var(--shiki-light-bg) !important;
-  font-style: var(--shiki-light-font-style) !important;
-  font-weight: var(--shiki-light-font-weight) !important;
-  text-decoration: var(--shiki-light-text-decoration) !important;
+/* Shiki dual-theme output: the *light* theme is baked into the inline styles as
+   the base, with `--shiki-dark-*` custom properties carrying the dark variant.
+   The site is dark-first and switches via [data-theme], so we activate the dark
+   variables explicitly whenever the dark theme is in effect. */
+:root:not([data-theme='light']) .astro-code,
+:root:not([data-theme='light']) .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
 }
 
 blockquote {
