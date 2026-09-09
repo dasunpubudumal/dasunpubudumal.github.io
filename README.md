@@ -63,6 +63,11 @@ renders as styled key caps. Names like `super`, `cmd`, `ctrl`, `opt`, `esc`,
 else is shown as typed. Implemented in `src/plugins/remark-keys.mjs` — a small
 remark plugin in the spirit of pymdown-extensions' *keys*.
 
+**Images.** Every image in a post is click-to-zoom: it opens in a full-screen
+viewer with arrow-key / on-screen navigation between all images in the post and
+click-to-toggle 1:1 zoom (`src/components/Lightbox.astro`). The `alt` text is
+shown as the caption.
+
 ## Customizing
 
 | What | Where |

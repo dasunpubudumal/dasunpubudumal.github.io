@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import ViewCount from '../components/ViewCount.astro';
+import Lightbox from '../components/Lightbox.astro';
 import { readingTime } from '../lib/reading-time';
 
 interface Props {
@@ -47,11 +48,13 @@ const mins = readingTime(post.body ?? '');
 
     <footer class="post-foot">
       <a href="/blog" class="btn">← All writing</a>
-      <a href={`https://github.com/dasunpubudumal/dasunpubudumal.github.io/edit/main/src/content/blog/${post.id}.md`} class="btn" target="_blank" rel="noopener">
+      <a href={`https://github.com/dasunpubudumal/dasunpubudumal.github.io/edit/main/src/content/blog/${post.id}/index.md`} class="btn" target="_blank" rel="noopener">
         Suggest an edit
       </a>
     </footer>
   </article>
+
+  <Lightbox />
 </BaseLayout>
 
 <style>
