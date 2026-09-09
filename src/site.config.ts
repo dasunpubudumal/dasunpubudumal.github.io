@@ -8,7 +8,7 @@ export const site = {
   tagline: 'Engineer, researcher, and writer exploring systems at the edge.',
   /** Longer intro used on the home page hero. */
   intro:
-    'I build software, dig into hard systems problems, and write about what I learn along the way. This is my corner of the web — notes from the frontier.',
+    'I build software, experiment with them, and write about what I learn along the way. This is my corner of the web.',
   author: 'Dasun Pubudumal',
   email: 'pubudumald@gmail.com',
   url: 'https://dasunpubudumal.github.io',
@@ -17,7 +17,7 @@ export const site = {
   /** Social / external links. Remove any you don't want; icons are auto-picked. */
   socials: [
     { label: 'GitHub', href: 'https://github.com/dasunpubudumal' },
-    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/dasunpubudumal/' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/dasun-pubudumal/' },
     { label: 'Email', href: 'mailto:pubudumald@gmail.com' },
   ],
 
