@@ -45,7 +45,7 @@ export const site = {
    * Leave `goatcounter` empty to disable tracking and hide every view count.
    */
   analytics: {
-    goatcounter: '',
+    goatcounter: 'dasunpubudumal',
   },
 };
 

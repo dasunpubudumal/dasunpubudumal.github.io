@@ -22,11 +22,13 @@ const heading = frontmatter.heading ?? frontmatter.title;
       {frontmatter.eyebrow && <p class="eyebrow">{frontmatter.eyebrow}</p>}
       <h1>{heading}</h1>
       {
-        frontmatter.pdf && (
+        (frontmatter.pdf || frontmatter.updated) && (
           <p class="actions">
-            <a class="btn btn--primary" href={frontmatter.pdf} download>
-              Download PDF
-            </a>
+            {frontmatter.pdf && (
+              <a class="btn btn--primary" href={frontmatter.pdf} download>
+                Download PDF
+              </a>
+            )}
             {frontmatter.updated && (
               <span class="updated">Updated {frontmatter.updated}</span>
             )}

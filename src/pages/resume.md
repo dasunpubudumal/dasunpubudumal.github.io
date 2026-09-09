@@ -4,10 +4,10 @@ title: Résumé
 eyebrow: Résumé
 heading: Dasun Pubudumal
 description: "Résumé — Dasun Pubudumal, software engineer."
-# Link to a downloadable file in /public. Delete this line to hide the button.
-pdf: /resume.pdf
-# Shown under the button; keep it current when you edit this file.
+# Shown under the heading; keep it current when you edit this file.
 updated: "December 2024"
+# To offer a PDF download, add a file to /public and point `pdf:` at it, e.g.
+#   pdf: /resume.pdf
 ---
 
 Software Engineer with 4 years of expertise in Java back-ends, looking to
