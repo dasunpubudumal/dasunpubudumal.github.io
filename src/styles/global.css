@@ -34,7 +34,7 @@
   /* Matches the Night Owl editor background so inline code and fenced blocks agree. */
   --code-bg: #011627;
 
-  --maxw: 46rem;
+  --maxw: 52rem;
   --maxw-wide: 68rem;
   --radius: 14px;
   --radius-sm: 9px;
@@ -239,6 +239,8 @@ hr {
 }
 
 img {
+  max-width: 100%;
+  height: auto;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border);
 }

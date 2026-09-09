@@ -119,6 +119,26 @@ const mins = readingTime(post.body ?? '');
     text-decoration-color: var(--accent);
   }
 
+  /* Figures: never wider than the text column, centered, with a caption
+     (the italic paragraph that immediately follows an image). */
+  .prose :global(p:has(> img)) {
+    margin-block: 1.75rem;
+    text-align: center;
+  }
+  .prose :global(img) {
+    display: block;
+    margin-inline: auto;
+    width: auto;
+    max-width: 100%;
+  }
+  .prose :global(p:has(> img) + p > em:only-child) {
+    display: block;
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--text-faint);
+    text-align: center;
+  }
+
   .post-foot {
     display: flex;
     flex-wrap: wrap;
