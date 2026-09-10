@@ -56,9 +56,9 @@ So, back to the lemonade stand. When the demand increases, you raise the price, 
 if you have an infinite amount of lemons. Also, assume you have infinite amounts of ingredients that you need to make lemonade, and you can spend infinite amount of time on making lemonade (i.e., infinite labour). Now, for this thought experiment, if we are taking scarcity out of the equation,
 you will have to take out the fact that skill is scarce as well. This means, *anybody* can make lemonade - not just you. So, in this world where the thought experiment takes place, the price of a lemonade would drop to a 0.
 
-See what an infinite amount of resources could do? It destroys the ability to price your lemonade, and literally brings your earnings to 0.
+See what an infinite amount of resources could do? It destroys the ability to price your lemonade, and literally brings your earnings to 0. You parents would definitely not give you any money for the next lemonade stand (if you wish to have a lemonade stand again, which is useless).
 
 ---
 
 Now, that was only a thought experiment. AI does not *remove* scarcity from the equation. But it brings *abundance* in. When enough problems have been solved, if you want to solve the same problem but with different connotations attached to the problem - which makes it a bit different - AI can easily solve 
-that problem. So, in theory, there is an abundance of solutions given that the AI harnesses can solve many recurring problems. What does that do to the solution that *you* developed? A lesser dystopian version of what happened to your lemonade stand. It devalues being the one who developed a solution.
+that problem. So, in theory, there is an abundance of solutions given that the AI harnesses can solve many recurring problems. What does that do to the solution that *you* developed? A lesser dystopian version of what happened to your lemonade stand. It devalues being the one who developed a solution. That is why developers are struggling so much to embrace AI in the first place. All the cases of AI-imposed imposter syndromes, and anxieties are both direct and indirect results of this (see [sethrose's post on X](https://x.com/sethrose/status/2076695003888308724)).
