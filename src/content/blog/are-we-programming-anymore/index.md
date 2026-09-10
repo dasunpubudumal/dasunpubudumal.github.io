@@ -3,7 +3,7 @@ title: "Are we writing code anymore?"
 description: "My take on programming with AI."
 pubDate: 2026-09-10
 tags: ["ai", "programming"]
-draft: false
+draft: true
 ---
 
 AI is the hot take now. I can't remember it being this much of a hot take pre-2020. I graduated university in late 2019 (early 2020), and I'm pretty sure
