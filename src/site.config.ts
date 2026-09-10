@@ -5,7 +5,7 @@
 export const site = {
   title: 'Dasun Pubudumal',
   /** Short tagline shown in the browser tab and meta description. */
-  tagline: 'Engineer, researcher, and writer exploring systems at the edge.',
+  tagline: 'Engineer, developer, and writer exploring systems at the edge.',
   /** Longer intro used on the home page hero. */
   intro:
     'I build software, experiment with them, and write about what I learn along the way. This is my corner of the web.',
