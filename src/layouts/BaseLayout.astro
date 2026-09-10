@@ -4,6 +4,8 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Analytics from '../components/Analytics.astro';
+// KaTeX stylesheet + self-hosted fonts for build-time LaTeX rendering.
+import 'katex/dist/katex.min.css';
 
 interface Props {
   title?: string;

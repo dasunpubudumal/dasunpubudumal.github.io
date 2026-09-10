@@ -57,6 +57,101 @@ cover: './hero.png'          # optional image next to the post file
 Markdown supports GitHub-flavored syntax: tables, task lists, footnotes, and
 fenced code blocks with build-time syntax highlighting (no client-side JS).
 
+### LaTeX / math
+
+Math is written in LaTeX between dollar signs and rendered to static HTML at
+build time by [`remark-math`](https://github.com/remarkjs/remark-math) +
+[`rehype-katex`](https://github.com/remarkjs/remark-math/tree/main/packages/rehype-katex).
+There is **no client-side JS and no MathJax request** — the page ships plain
+HTML plus the self-hosted [KaTeX](https://katex.org) stylesheet and fonts.
+
+- **Inline math:** wrap it in single dollar signs — `The mass–energy relation is
+  $E = mc^2$.` → The mass–energy relation is $E = mc^2$.
+- **Display math:** put `$$` on their own lines around the expression:
+
+  ```markdown
+  $$
+  \int_0^\infty e^{-x^2}\,dx = \frac{\sqrt{\pi}}{2}
+  $$
+  ```
+
+  Display blocks are centered and scroll horizontally if an equation is wider
+  than the text column.
+
+Notes and gotchas:
+
+- **Escape a literal dollar sign** outside math as `\$` (e.g. `\$5`), otherwise
+  a later `$` on the same paragraph may start a math span.
+- **No space** may follow the opening `$` or precede the closing `$` in inline
+  math: `$x + y$`, not `$ x + y $`.
+- Use LaTeX subscript/superscript syntax inside math (`x_1`, `a^{2n}`); braces
+  group multi-character scripts.
+- KaTeX supports a large but not complete subset of LaTeX — see the
+  [supported functions](https://katex.org/docs/supported.html) list. Unknown
+  commands render as red error text rather than failing the build (`strict:
+  false` in `astro.config.mjs`).
+- Math inherits the post's text color, so it adapts to the light/dark toggle
+  automatically. Tune sizing/spacing in `src/styles/global.css` (`.katex` /
+  `.katex-display`).
+- Everything works the same in standalone Markdown pages (`src/pages/*.md`) and
+  the résumé.
+
+Common examples:
+
+| Markdown | Renders |
+| --- | --- |
+| `$\alpha,\ \beta,\ \gamma$` | Greek letters |
+| `$\frac{a}{b}$` | fraction |
+| `$\sqrt{x}$`, `$\sqrt[3]{x}$` | roots |
+| `$\sum_{i=1}^{n} i$`, `$\prod$`, `$\int_a^b$` | big operators |
+| `$\vec{v}$`, `$\hat{x}$`, `$\bar{x}$` | accents |
+| `$\mathbb{R}$`, `$\mathcal{L}$`, `$\mathbf{A}$` | letter styles |
+| `$\begin{bmatrix} a & b \\ c & d \end{bmatrix}$` | matrix |
+| `$x \approx y$`, `$a \le b$`, `$p \Rightarrow q$` | relations |
+
+### Embedding a PDF
+
+A paragraph whose **only** content is a Markdown link to a `.pdf` turns into an
+inline viewer — the browser's native PDF renderer in an `<iframe>`, with a title
+bar carrying **Open** (new tab) and **Download** links. No client-side JS, no
+PDF.js bundle. Implemented in `src/plugins/remark-pdf.mjs`.
+
+1. Put the file in `public/` — e.g. `public/papers/attention.pdf`.
+2. Link to it from the post with a **root-absolute path** on its own line:
+
+   ```markdown
+   [Attention Is All You Need](/papers/attention.pdf)
+   ```
+
+The link text becomes the title shown in the bar; leave it empty
+(`[](/papers/attention.pdf)`) to fall back to the file name. An absolute URL
+(`https://…/paper.pdf`) works too.
+
+**Set the height** with a Markdown link title (any number in it = pixels):
+
+```markdown
+[Long report](/papers/report.pdf "900")
+```
+
+Default height is `min(80vh, 780px)`, dropping to `65vh` on narrow screens.
+Tune the frame and title bar in `src/styles/global.css` (`.pdf`).
+
+**A PDF link inside a sentence stays an ordinary link** — only a link that is
+alone in its paragraph becomes a viewer:
+
+```markdown
+See [the paper](/papers/attention.pdf) for the full derivation.
+```
+
+Notes:
+
+- Relative paths (`./paper.pdf` next to the post) are **not** resolved — there's
+  no asset pipeline for PDFs. Use `public/` + an absolute path.
+- Mobile browsers often show only the title bar's **Download** link instead of
+  rendering inline; that's expected.
+- The résumé's `pdf:` frontmatter (a download button, no embed) is separate —
+  see `src/pages/resume.md`.
+
 **Keyboard shortcuts.** Write `++Super+Space++` (or `++Super + Space++`) and it
 renders as styled key caps. Names like `super`, `cmd`, `ctrl`, `opt`, `esc`,
 `return`, `up`/`down`/`left`/`right` are normalised; `++f5++` → `F5`; anything
@@ -80,6 +175,8 @@ shown as the caption.
 | Nav links | `src/site.config.ts` → `nav` |
 | Code themes (light / dark) | `astro.config.mjs` → `markdown.shikiConfig` |
 | Markdown plugins (e.g. key caps) | `src/plugins/`, wired in `astro.config.mjs` → `markdown.remarkPlugins` |
+| LaTeX / math rendering | `astro.config.mjs` → `remark-math` + `rehype-katex`; KaTeX CSS imported in `src/layouts/BaseLayout.astro`; `.katex` styles in `src/styles/global.css` |
+| PDF embed viewer | `src/plugins/remark-pdf.mjs` (wired in `astro.config.mjs`); `.pdf` styles in `src/styles/global.css` |
 | Favicon / social image | `public/favicon.svg`, `public/og-default.svg` (+ regenerate `og-default.png`) |
 
 Regenerate the social preview PNG after editing the SVG:
@@ -139,6 +236,8 @@ No custom domain — if you add one later, drop a `public/CNAME` file and set
 
 - [Astro](https://astro.build) — static site generator
 - [Shiki](https://shiki.style) — build-time syntax highlighting
+- [KaTeX](https://katex.org) via `remark-math` / `rehype-katex` — build-time
+  LaTeX math (self-hosted fonts, no client-side JS)
 - Variable fonts via [Fontsource](https://fontsource.org) (self-hosted, no
   external font requests)
 - `@astrojs/sitemap` — `sitemap-index.xml`
